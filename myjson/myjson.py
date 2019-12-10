@@ -59,7 +59,7 @@ def get(id_or_url, pretty=False):
     return _read_url(url)
 
 
-def store(json, update=None, id_only=False):
+def store(json, update=None, id_only=False, encrypt = False):
 
     """Update or create a myjson endpoint
 
@@ -71,8 +71,15 @@ def store(json, update=None, id_only=False):
         :class:`MyjsonNotFoundException` if the endpoint is specified and does not exist
     """
 
+    if encrypt:
+        data = '{"encrypted_json":"{json_data}"}'.format(json_data = json)
+    else:
+        data = json.encode()
+
     url, id = _get_url_and_id(update)
-    request = Request(url, data=json.encode())
+
+    request = Request(url, data=data)
+
     request.add_header('Content-Type', 'application/json')
     request.get_method = lambda: 'PUT' if id else 'POST'
 
