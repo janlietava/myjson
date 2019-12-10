@@ -72,7 +72,7 @@ def store(json, update=None, id_only=False, encrypt = False):
     """
 
     if encrypt:
-        data = '{"encrypted_json":"{json_data}"}'.format(json_data = json)
+        data = '{{"content":"{json_data}"}}'.format(json_data = json)
     else:
         data = json
 
