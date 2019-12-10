@@ -74,11 +74,11 @@ def store(json, update=None, id_only=False, encrypt = False):
     if encrypt:
         data = '{"encrypted_json":"{json_data}"}'.format(json_data = json)
     else:
-        data = json.encode()
+        data = json
 
     url, id = _get_url_and_id(update)
 
-    request = Request(url, data=data)
+    request = Request(url, data=data.encode())
 
     request.add_header('Content-Type', 'application/json')
     request.get_method = lambda: 'PUT' if id else 'POST'
